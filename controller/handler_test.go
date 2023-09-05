@@ -35,6 +35,6 @@ func TestPingRoute(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	// レスポンスボディが期待するものであるかチェック。
-	expected := "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	expected := "pong"
 	assert.Equal(t, expected, w.Body.String())
 }
