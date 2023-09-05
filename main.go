@@ -17,7 +17,7 @@ func main() {
 	db.GetDB().AutoMigrate(&user.User{})
 
 	r := gin.Default()
-	r.GET("/pong", controller.PingHandler)
+	r.GET("/ping", controller.PingHandler)
 	r.POST("/signup", controller.SignupHandler)
 	users := r.Group("/users")
 	users.Use(myauth.BasicAuthMiddleware())
