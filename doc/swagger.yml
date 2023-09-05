@@ -1,117 +1,194 @@
-openapi: "3.0.2"
+openapi: 3.0.0
 info:
-  title: Backend Tutorial
-  version: "1.0"
-servers:
-  - url: http://localhost:8080
+  version: "1.0.0"
+  title: "Gin Basic API"
 paths:
-  /ping:
+  /pong:
     get:
-      tags:
-        - Backend Tutorial
-      summary: Return ping
+      summary: "Ping endpoint"
       responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/message"
-                example:
-                  - message: ping
-  /signin:
-    post:
-      tags:
-        - Backend Tutorial
-      summary: Sign in
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
-            example:
-              UserId: example_man
-              Password: password
-      responses:
-        200:
-          description: OK
+        '200':
+          description: "Successful Response"
           content:
             application/json:
               schema:
                 type: object
-                items:
-                  $ref: '#/components/parameters/token'
-                example:
-                  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiZXhwIjoxNTQ3OTc0MDgyfQ.2Ye5_w1z3zpD4dSGdRp3s98ZipCNQqmsHRB9vioOx54
-        400:
-          description: Fail to sign in
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  $ref: '#/components/schemas/message'
-                example:
-                  message: This user ID has been used
+                properties:
+                  message:
+                    type: string
+
   /signup:
     post:
-      tags:
-        - Backend Tutorial
-      summary: Sign up
+      summary: "Sign up a new user"
       requestBody:
+        required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
-              $ref: '#/components/schemas/User'
-            example:
-              UserId: example_man
-              Password: password
+              type: object
+              properties:
+                user_id:
+                  type: string
+                password:
+                  type: string
       responses:
-        201:
-          description: Created
+        '200':
+          description: "Successful account creation"
           content:
             application/json:
               schema:
                 type: object
-                items:
-                  $ref: '#/components/parameters/token'
-                example:
-                  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiZXhwIjoxNTQ3OTc0MDgyfQ.2Ye5_w1z3zpD4dSGdRp3s98ZipCNQqmsHRB9vioOx54
-        400:
-          description: Fail to sign in
+                properties:
+                  message:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      user_id:
+                        type: string
+                      nickname:
+                        type: string
+        '400':
+          description: "Bad Request"
           content:
             application/json:
               schema:
                 type: object
-                items:
-                  $ref: '#/components/schemas/message'
-                example:
-                  message: This user ID has been used
+                properties:
+                  message:
+                    type: string
+                  cause:
+                    type: string
+
+  /users/{id}:
+    get:
+      summary: "Get user details by user_id"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Successfully retrieved user details"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      user_id:
+                        type: string
+                      nickname:
+                        type: string
+                      comment:
+                        type: string
+        '404':
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+    patch:
+      summary: "Update user details by user_id"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nickname:
+                  type: string
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: "Successfully updated user details"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  recipe:
+                    type: object
+                    properties:
+                      nickname:
+                        type: string
+                      comment:
+                        type: string
+        '400':
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  cause:
+                    type: string
+        '404':
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /close:
+    post:
+      summary: "Close and delete user account"
+      responses:
+        '200':
+          description: "Successfully removed user account"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: "Unauthorized"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
 components:
-  parameters:
-    token:
-      in: path
-      name: token
-      required: true
-      schema:
-        type: string
-      description: json web token
-  schemas:
-    message:
-      type: object
-      required:
-        - message
-      properties:
-        message: 
-          type: string
-    User:
-      type: object
-      required:
-        - UserId
-      properties:
-        UserId:
-          type: string 
-        Password:
-          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
