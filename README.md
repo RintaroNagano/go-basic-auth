@@ -4,15 +4,16 @@
 /pingというapiと，basic認証の自己実装
 
 ## 動作確認手順
-1. git clone "URL about this repo"
-1. cd backend_tutorial
-1. cp .env.sample .env
-1. docker compose up
-1. curl -X POST -H "Content-Type: application/json" --url http://localhost:8080/signup -d '{"user_id":"rintaro", "password":"password"}'
-1. curl -X GET http://localhost:8080/users/rintaro -H "Authorization: Basic $(echo -n 'rintaro:password' | base64)"
-1. curl -X PATCH http://localhost:8080/users/rintaro -H "Authorization: Basic $(echo -n 'rintaro:password' | base64)" -H "Content-Type: application/json" -d '{"nickname":"NewNickname","comment":"NewComment"}'
-1. curl -X POST http://localhost:8080/close/ -H "Authorization: Basic $(echo -n 'rintaro:password' | base64)"
-
+```
+git clone git@github.com:RintaroNagano/go-basic-auth.git
+cd go-bacic-auth
+cp .env.sample .env
+docker compose up
+curl -X POST -H "Content-Type: application/json" --url http://localhost:8080/signup -d '{"user_id":"rintaro", "password":"password"}'
+curl -X GET http://localhost:8080/users/rintaro -H "Authorization: Basic $(echo -n 'rintaro:password' | base64)"
+curl -X PATCH http://localhost:8080/users/rintaro -H "Authorization: Basic $(echo -n 'rintaro:password' | base64)" -H "Content-Type: application/json" -d '{"nickname":"NewNickname","comment":"NewComment"}'
+curl -X POST http://localhost:8080/close/ -H "Authorization: Basic $(echo -n 'rintaro:password' | base64)"
+```
 
 ## 起動
 サーバーは以下のコマンドで起動します。
