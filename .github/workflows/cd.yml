@@ -64,6 +64,15 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Setup enviroment valuable
+      env:
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DIALECT: ${{ secrets.DIALECT }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          PROTOCOL: ${{ secrets.PROTOCOL }}
+      run: chmod +x setup-env.sh && sh setup-env.sh
+
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:

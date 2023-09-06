@@ -1,0 +1,33 @@
+[
+  {
+    "name": "app",
+    "image": "208644578245.dkr.ecr.ap-northeast-1.amazonaws.com/gin-basic-auth:latest",
+	  "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "/ecs/gin-basic-auth",
+        "awslogs-region": "ap-northeast-1",
+        "awslogs-stream-prefix": "production"
+      }
+    },
+    "environment": [
+      {
+        "name": "TZ",
+        "value": "Japan"
+      }
+    ],
+	"portMappings": [
+      {
+        "protocol": "tcp",
+        "containerPort": 80
+      }
+    ],
+    "command": [
+      "/bin/sh",
+      "-c",
+      "./server"
+    ],
+    "workingDirectory": "/app",
+    "essential": true
+  }
+]
