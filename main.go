@@ -18,6 +18,7 @@ func main() {
 
 	r := gin.Default()
 	r.GET("/ping", controller.PingHandler)
+	r.GET("/new", controller.NewHandler)
 	r.POST("/signup", controller.SignupHandler)
 	users := r.Group("/users")
 	users.Use(myauth.BasicAuthMiddleware())

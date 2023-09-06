@@ -19,6 +19,12 @@ func PingHandler(c *gin.Context) {
 	})
 }
 
+func NewHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Welcome /new api, this code are deployed AUTOMATICALLY!!!",
+	})
+}
+
 func SignupHandler(c *gin.Context) {
 	req := struct {
 		UserID   string `json:"user_id"`
