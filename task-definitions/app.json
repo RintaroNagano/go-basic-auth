@@ -1,33 +1,89 @@
-[
-  {
-    "name": "app",
-    "image": "208644578245.dkr.ecr.ap-northeast-1.amazonaws.com/gin-basic-auth:latest",
-	  "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "/ecs/gin-basic-auth",
-        "awslogs-region": "ap-northeast-1",
-        "awslogs-stream-prefix": "production"
-      }
-    },
-    "environment": [
+{
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:208644578245:task-definition/gin-basic-auth:6",
+  "containerDefinitions": [
       {
-        "name": "TZ",
-        "value": "Japan"
+          "name": "app",
+          "image": "208644578245.dkr.ecr.ap-northeast-1.amazonaws.com/gin-basic-auth:latest",
+          "cpu": 0,
+          "portMappings": [
+              {
+                  "containerPort": 80,
+                  "hostPort": 80,
+                  "protocol": "tcp"
+              }
+          ],
+          "essential": true,
+          "command": [
+              "/bin/sh",
+              "-c",
+              "./server"
+          ],
+          "environment": [
+              {
+                  "name": "TZ",
+                  "value": "Japan"
+              }
+          ],
+          "mountPoints": [],
+          "volumesFrom": [],
+          "workingDirectory": "/app",
+          "logConfiguration": {
+              "logDriver": "awslogs",
+              "options": {
+                  "awslogs-group": "/ecs/gin-basic-auth",
+                  "awslogs-region": "ap-northeast-1",
+                  "awslogs-stream-prefix": "production"
+              }
+          }
       }
-    ],
-	"portMappings": [
+  ],
+  "family": "gin-basic-auth",
+  "taskRoleArn": "arn:aws:iam::208644578245:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::208644578245:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "revision": 6,
+  "volumes": [],
+  "status": "ACTIVE",
+  "requiresAttributes": [
       {
-        "protocol": "tcp",
-        "containerPort": 80
+          "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+      },
+      {
+          "name": "ecs.capability.execution-role-awslogs"
+      },
+      {
+          "name": "com.amazonaws.ecs.capability.ecr-auth"
+      },
+      {
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+      },
+      {
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
+      },
+      {
+          "name": "com.amazonaws.ecs.capability.task-iam-role"
+      },
+      {
+          "name": "ecs.capability.execution-role-ecr-pull"
+      },
+      {
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+      },
+      {
+          "name": "ecs.capability.task-eni"
       }
-    ],
-    "command": [
-      "/bin/sh",
-      "-c",
-      "./server"
-    ],
-    "workingDirectory": "/app",
-    "essential": true
-  }
-]
+  ],
+  "placementConstraints": [],
+  "compatibilities": [
+      "EC2",
+      "FARGATE"
+  ],
+  "requiresCompatibilities": [
+      "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512",
+  "registeredAt": "2023-09-06T01:55:33.412Z",
+  "registeredBy": "arn:aws:iam::208644578245:user/Terraform",
+  "tags": []
+}
